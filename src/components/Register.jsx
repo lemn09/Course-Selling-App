@@ -14,6 +14,9 @@ function Register() {
     const navigate = useNavigate();
     const [user, setUser] = useRecoilState(userState);
 
+    const [isAdmin, setIsAdmin] = useRecoilState(adminState);
+    let admin = isAdmin;
+
     async function signUp() {
         try {
             const adminHeaders = {
@@ -21,31 +24,34 @@ function Register() {
                 username: email,
                 password
             };
-            const url = (isAdmin) ? 'http://localhost:3000/admin/signup' : 'http://localhost:3000/users/signup';
+            const url = (admin) ? 'http://localhost:3000/admin/signup' : 'http://localhost:3000/users/signup';
             let res = null;
-            if (isAdmin) {
+            if (admin) {
                 res = await axios.post(url, {}, { adminHeaders });
             } else {
                 res = await axios.post(url, { username: email, password });
             }
 
-
             console.log('post req success');
             console.log(res.data);
             localStorage.setItem('token', res.data.token);
-            // window.location = '/';
             setUser({
                 ...user,
                 username: email
             });
+            setIsAdmin(admin);
             navigate('/');
+
 
         } catch (err) {
             console.log('post req failed: ' + err);
+            alert('Signup failed, retry!!');
         }
+
+        setEmail("");
+        setPassword("");
     }
 
-    const [isAdmin, setIsAdmin] = useRecoilState(adminState);
 
     return <div>
         <div>
@@ -57,14 +63,14 @@ function Register() {
                 <form onSubmit={signUp} className="shadow-lg w-100 bg-white flex flex-col pt-10 items-center h-auto p-4 w-1/4 gap-4 border border-gray-300 rounded-lg">
                     <input
                         type="email" required placeholder="Email" className=" border-2 bg-[#f7f7f9] p-2 rounded-sm shadow-md w-2/3 hover:bg-white focus:bg-white"
-                        onChange={e => setEmail(e.target.value)}
+                        onChange={e => setEmail(e.target.value)} value={email}
                     />
                     <input
                         type="password" required placeholder="Password" className="bg-[#f7f7f9] p-2 rounded-sm shadow-md w-2/3 hover:bg-white focus:bg-white"
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={e => setPassword(e.target.value)} value={password}
                     />
                     <FormControlLabel
-                        control={<Switch checked={isAdmin} onChange={() => setIsAdmin(!isAdmin)} />}
+                        control={<Switch checked={admin} onChange={() => { admin = !admin }} />}
                         label="Admin Role"
                     />
 

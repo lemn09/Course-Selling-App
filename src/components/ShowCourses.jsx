@@ -3,6 +3,7 @@ import { Box, Button, Card, CardContent, CardMedia, Typography, CircularProgress
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { atom, useRecoilState } from 'recoil';
+import { adminState } from "./adminAtom";
 
 const coursesState = atom({
     key: "coursesState", // Unique ID (with respect to other atoms/selectors)
@@ -134,6 +135,51 @@ function CourseCard({ course }) {
         setCourses(updatedCourses);
     }
 
+    const [isAdmin] = useRecoilState(adminState);
+
+    async function enrollCourse() {
+
+
+        // logic to check if already enrolled before enrolling
+        try {
+
+            const url = "http://localhost:3000/users/course/" + course._id;
+            const headers = {
+                'Content': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+
+            const res = await axios.get(url, { headers });
+
+            if (res.data.enrolled) {
+                alert('Already enrolled');
+                return;
+            }
+
+        } catch (err) {
+            alert('Error enrolling, try again');
+            console.log("axios request fail: " + err);
+            return;
+        }
+
+        // logic to enroll/purchase a course
+        try {
+            const url = "http://localhost:3000/users/courses/" + course._id;
+            const headers = {
+                'Content': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+
+            const res = await axios.post(url, {}, { headers });
+
+            console.log(res.data.message);
+            alert(res.data.message);
+        } catch (err) {
+            alert("Cannot Load Enrolled Courses, Try Again");
+            console.log("axios request fail: " + err);
+        }
+    }
+
     return (
         <Card sx={cardStyle}>
             <CardMedia
@@ -158,18 +204,28 @@ function CourseCard({ course }) {
                         ${course.price}
                     </Typography>
                 </Box>
-                <div
 
-                    style={{
-                        display: "flex",
-                        width: "100%",
-                        justifyContent: "space-between",
+                {
+                    isAdmin ? (
+                        <div
 
-                    }}
-                >
-                    <Button variant="contained" onClick={editCourse}>Edit</Button>
-                    <Button variant="contained" onClick={deleteCourse}>Delete</Button>
-                </div>
+                            style={{
+                                display: "flex",
+                                width: "100%",
+                                justifyContent: "space-between",
+
+                            }}
+                        >
+                            <Button variant="contained" onClick={editCourse}>Edit</Button>
+                            <Button variant="contained" onClick={deleteCourse}>Delete</Button>
+                        </div>
+                    ) :
+                        (
+                            <div>
+                                <Button variant="contained" onClick={enrollCourse}>Enroll</Button>
+                            </div>
+                        )
+                }
             </CardContent>
         </Card>
     )

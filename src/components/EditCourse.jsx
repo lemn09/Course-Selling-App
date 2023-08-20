@@ -4,6 +4,7 @@ import axios from "axios";
 import { Card, CardContent, CardMedia, Typography, Box, TextField, FormControlLabel, Switch, CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { adminState } from "./adminAtom";
 
 
 const courseState = atom({
@@ -20,12 +21,20 @@ const courseState = atom({
 
 
 export default function EditCourse() {
+  const [isAdmin] = useRecoilState(adminState);
+
   const [course, setCourse] = useRecoilState(courseState);
   const { courseId } = useParams();
 
   const navigate = useNavigate();
 
   React.useEffect(() => {
+
+    if (!isAdmin) {
+      alert('admin access required');
+      navigate('/');
+      return;
+    }
 
     if (!localStorage.getItem('token')) {
       navigate('/login');

@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { Button, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "./userState";
 import { useNavigate } from "react-router-dom";
+import { adminState } from "./adminAtom";
 
 export default function App() {
 
@@ -11,6 +12,7 @@ export default function App() {
   const [user, setUser] = useRecoilState(userState);
 
 
+  const [isAdmin] = useRecoilState(adminState);
 
   useEffect(() => {
 
@@ -82,6 +84,10 @@ export default function App() {
     navigate('/courses');
   }
 
+  function enrolledCourse() {
+    navigate('/enrolled-courses')
+  }
+
   const LogIn = () => (
     <div className="flex gap-2 items-center">
       <div>{user.username}</div>
@@ -103,6 +109,29 @@ export default function App() {
       </button>
     </div>
   );
+
+  const UserLogIn = () => (
+    <div className="flex gap-2 items-center">
+      <div>{user.username}</div>
+      <button
+        className="hover:bg-white bg-[#212121] text-white hover:text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow"
+        onClick={exploreHandler}
+      >
+        Catalog
+      </button>
+      <button
+        className="hover:bg-white bg-[#212121] text-white hover:text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow"
+        onClick={enrolledCourse}
+      >Enrolled Courses</button>
+      <button
+        className="hover:bg-white bg-[#212121] text-white hover:text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow"
+        onClick={logoutHandler}
+      >
+        Logout
+      </button>
+    </div>
+  );
+
 
   const LogOut = () => (
     <div className="flex gap-2">
@@ -138,10 +167,17 @@ export default function App() {
         {user.loading ? (
           <CircularProgress />
         ) : user.username ? (
-          <LogIn />
-        ) : (
-          <LogOut />
-        )}
+          isAdmin ?
+            (
+              <LogIn />
+            ) :
+            (
+              <UserLogIn />
+            )
+        )
+          : (
+            <LogOut />
+          )}
       </nav>
     </div>
   );

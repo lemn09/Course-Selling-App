@@ -3,6 +3,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { adminState } from "./adminAtom";
 
 function Landing() {
     const navigate = useNavigate();
@@ -32,7 +34,7 @@ function Landing() {
             </Typography>
             <Typography variant="body1" style={{ marginBottom: "20px", fontFamily: "Quicksand" }}>
                 Discover a world of knowledge and skills with our expertly crafted
-                courses. Whether you're looking to advance your career or explore new
+                courses. Whether you are looking to advance your career or explore new
                 interests, we have a course for you.
             </Typography>
             <Button variant="contained" onClick={explore} style={{ backgroundColor: "#212121", color: "#fff", fontFamily: "Quicksand" }}>

@@ -1,6 +1,8 @@
 import React from "react";
 import { Switch, TextField, FormControlLabel } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { adminState } from "./adminAtom";
 
 /// You need to add input boxes to take input for users to create a course.
 /// I've added one input so you understand the api to do it.
@@ -14,8 +16,16 @@ function AddCourse() {
     const [imgLink, setImgLink] = React.useState("");
     const [price, setPrice] = React.useState(0);
 
+    const [isAdmin] = useRecoilState(adminState);
+
     const navigate = useNavigate();
     React.useEffect(() => {
+        if (!isAdmin) {
+            alert('admin access required');
+            navigate('/');
+            return;
+        }
+
         if (!localStorage.getItem('token')) {
             navigate('/login');
         }
@@ -90,6 +100,12 @@ function CourseForm() {
             console.log('course not added, fetch request failed ' + err);
         }
 
+        setTitle('');
+        setDesc('');
+        setImgLink('');
+        setPrice('');
+        setPublished(false);
+        setErrors({ title: false, desc: false });
     }
 
     function handleSwitchChange() {
@@ -114,10 +130,11 @@ function CourseForm() {
                         size="small"
                         error={errors.title}
                         helperText={errors.title && 'Title is required'}
+                        value={title}
                     />
-                    <TextField onChange={(e) => { setDesc(e.target.value) }} id="outlined-basic" label="Description" variant="outlined" placeholder="Description" size="small" error={errors.desc} helperText={errors.desc && 'Description is required'} />
-                    <TextField onChange={(e) => { setImgLink(e.target.value) }} id="outlined-basic" label="Image" variant="outlined" placeholder="Image Link" size="small" />
-                    <TextField onChange={(e) => { setPrice(e.target.value) }} id="outlined-basic" label="Price" variant="outlined" placeholder="Price" size="small" />
+                    <TextField onChange={(e) => { setDesc(e.target.value) }} id="outlined-basic" label="Description" variant="outlined" placeholder="Description" size="small" error={errors.desc} helperText={errors.desc && 'Description is required'} value={desc} />
+                    <TextField onChange={(e) => { setImgLink(e.target.value) }} id="outlined-basic" label="Image" variant="outlined" placeholder="Image Link" size="small" value={imgLink} />
+                    <TextField onChange={(e) => { setPrice(e.target.value) }} id="outlined-basic" label="Price" variant="outlined" placeholder="Price" size="small" value={price} />
                     <FormControlLabel
                         label="Published"
                         control={<Switch checked={published} onChange={handleSwitchChange} />}
