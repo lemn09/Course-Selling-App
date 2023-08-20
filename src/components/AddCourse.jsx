@@ -97,7 +97,7 @@ function CourseForm() {
     }
 
     return (
-        <div className="bg-[#eeeeee]">
+        <div >
 
             <div className="w-screen text-center h-auto flex flex-col justify-baseline items-center mt-10">
                 <p className="text-gray-500 text-3xl font-semibold mb-8">Create Course</p>

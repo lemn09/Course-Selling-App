@@ -8,10 +8,6 @@ const Footer = () => {
     color: '#FFFFFF', // White text color
     padding: '24px 0',
     textAlign: 'center',
-    // position: 'fixed',
-    // bottom: 0,
-    // marginTop: "5%",
-    // left: 0,
     width: '100%',
     display: "flex"
   };

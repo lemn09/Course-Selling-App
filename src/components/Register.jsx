@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "./userState";
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { adminState } from "./adminAtom";
 
 /// File is incomplete. You need to add input boxes to take input for users to register.
 function Register() {
@@ -36,13 +39,11 @@ function Register() {
         }
     }
 
+    const [isAdmin, setIsAdmin] = useRecoilState(adminState);
+
     return <div>
         <div>
 
-            {/* <nav className=" h-auto w-screen flex justify-between p-8">
-                <img src="/images/logo.png" alt="course-vista" className=" h-12 rounded-lg" />
-                <Link to="/login" className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow">Sign In</Link>
-            </nav> */}
 
             <div className="w-screen text-center h-auto flex flex-col justify-baseline items-center mt-10">
                 <p className="text-gray-500 text-4xl font-semibold my-7">Create a new account</p>
@@ -57,6 +58,11 @@ function Register() {
                         type="password" required placeholder="Password" className="bg-[#f7f7f9] p-2 rounded-sm shadow-md w-2/3 hover:bg-white focus:bg-white"
                         onChange={e => setPassword(e.target.value)}
                     />
+                    <FormControlLabel
+                        control={<Switch checked={isAdmin} onChange={() => setIsAdmin(!isAdmin)} />}
+                        label="Admin Role"
+                    />
+
 
                     <button
                         type="submit"
