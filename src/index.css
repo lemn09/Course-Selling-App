@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+  * {
+    /* @apply overflow-hidden; */
+    margin: 0;
+    padding: 0;
+  }
+}
