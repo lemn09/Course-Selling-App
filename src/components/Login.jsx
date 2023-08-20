@@ -3,12 +3,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "./userState";
+import { adminState } from "./adminAtom";
 
 // File is incomplete. You need to add input boxes to take input for users to login.
 function Login() {
     const [user, setUser] = useRecoilState(userState);
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+
+    const [isAdmin, setIsAdmin] = useRecoilState(adminState);
 
     const navigate = useNavigate();
 
@@ -57,7 +60,8 @@ function Login() {
                 <p className="text-gray-500 text-4xl font-semibold">Welcome back!</p>
                 <p className="text-gray-400 text-3xl font-semibold my-7 leading-10">Lets get you signed in</p>
 
-                <form onSubmit={logIn} className="shadow-lg w-100 bg-white flex flex-col pt-10 items-center h-60 w-1/4 gap-4 border-slate-50">
+
+                <form onSubmit={logIn} className="shadow-lg w-100 bg-white flex flex-col pt-10 items-center h-auto p-4 w-1/4 gap-4 border border-gray-300 rounded-lg">
                     <input
                         type="text" placeholder="Email" className=" border-2 bg-[#f7f7f9] p-2 rounded-sm shadow-md w-2/3 hover:bg-white focus:bg-white"
                         onChange={e => setEmail(e.target.value)}

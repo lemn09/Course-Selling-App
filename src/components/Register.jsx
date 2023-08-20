@@ -16,13 +16,19 @@ function Register() {
 
     async function signUp() {
         try {
-            const headers = {
+            const adminHeaders = {
                 'Content-Type': 'application/json',
                 username: email,
                 password
             };
-            const url = 'http://localhost:3000/admin/signup';
-            const res = await axios.post(url, {}, { headers });
+            const url = (isAdmin) ? 'http://localhost:3000/admin/signup' : 'http://localhost:3000/users/signup';
+            let res = null;
+            if (isAdmin) {
+                res = await axios.post(url, {}, { adminHeaders });
+            } else {
+                res = await axios.post(url, { username: email, password });
+            }
+
 
             console.log('post req success');
             console.log(res.data);
@@ -47,9 +53,8 @@ function Register() {
 
             <div className="w-screen text-center h-auto flex flex-col justify-baseline items-center mt-10">
                 <p className="text-gray-500 text-4xl font-semibold my-7">Create a new account</p>
-                {/* <p className="text-gray-400 text-3xl font-semibold my-7 leading-10">Lets get you signed in</p> */}
 
-                <form onSubmit={signUp} className="shadow-lg w-100 bg-white flex flex-col pt-10 items-center h-60 w-1/4 gap-4 border-slate-50">
+                <form onSubmit={signUp} className="shadow-lg w-100 bg-white flex flex-col pt-10 items-center h-auto p-4 w-1/4 gap-4 border border-gray-300 rounded-lg">
                     <input
                         type="email" required placeholder="Email" className=" border-2 bg-[#f7f7f9] p-2 rounded-sm shadow-md w-2/3 hover:bg-white focus:bg-white"
                         onChange={e => setEmail(e.target.value)}
