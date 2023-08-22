@@ -13,7 +13,7 @@ function AddCourse() {
 
     const [title, setTitle] = React.useState("");
     const [desc, setDesc] = React.useState("");
-    const [imgLink, setImgLink] = React.useState("");
+    const [imgLink, setImgLink] = React.useState("https://www.tea-tron.com/antorodriguez/blog/wp-content/uploads/2016/04/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png");
     const [price, setPrice] = React.useState(0);
 
     const [isAdmin] = useRecoilState(adminState);

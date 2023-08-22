@@ -126,21 +126,21 @@ function CourseForm() {
         variant="outlined"
         placeholder="Title"
         size="small"
-        defaultValue={course.title}
+        value={course.title}
         onChange={(e) => setCourse({ ...course, title: e.target.value })}
       />
       <TextField
         id="outlined-basic" label="Description" variant="outlined" placeholder="Description" size="small"
-        defaultValue={course.description}
+        value={course.description}
         onChange={(e) => setCourse({ ...course, description: e.target.value })}
       />
       <TextField
-        id="outlined-basic" label="Image" variant="outlined" placeholder="Image Link" size="small" defaultValue={course.imageLink}
+        id="outlined-basic" label="Image" variant="outlined" placeholder="Image Link" size="small" value={course.imageLink}
         onChange={(e) => setCourse({ ...course, imageLink: e.target.value })}
       />
       <TextField
         id="outlined-basic" label="Price" variant="outlined" placeholder="Price" size="small"
-        defaultValue={course.price}
+        value={course.price}
         onChange={(e) => setCourse({ ...course, price: e.target.value })}
       />
       <FormControlLabel

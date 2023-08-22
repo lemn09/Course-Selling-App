@@ -13,21 +13,21 @@ function Login() {
     const [password, setPassword] = React.useState("");
 
     const [isAdmin, setIsAdmin] = useRecoilState(adminState);
-    let admin = isAdmin;
+    const [admin, setAdmin] = React.useState(isAdmin);
 
     const navigate = useNavigate();
 
     async function logIn(e) {
         e.preventDefault();
 
-        // request to fetch toke using axios
+        // request to fetch token using axios
         try {
             const headers = {
                 'Content-Type': 'application/json',
                 username: email,
                 password
             };
-            const url = (isAdmin) ? 'http://localhost:3000/admin/login' : 'http://localhost:3000/users/login';
+            const url = (admin) ? 'http://localhost:3000/admin/login' : 'http://localhost:3000/users/login';
             const res = await axios.post(url, {}, { headers });
 
             console.log('post req success');
@@ -69,9 +69,10 @@ function Login() {
                         value={password} onChange={e => setPassword(e.target.value)} required
                     />
                     <FormControlLabel
-                        control={<Switch checked={admin} onChange={() => { admin = !admin }} />}
+                        control={<Switch checked={admin} onChange={() => setAdmin(!admin)} />}
                         label="Admin Role"
                     />
+
 
                     <button
                         className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg mt-4"

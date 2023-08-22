@@ -14,8 +14,9 @@ function Register() {
     const navigate = useNavigate();
     const [user, setUser] = useRecoilState(userState);
 
+
     const [isAdmin, setIsAdmin] = useRecoilState(adminState);
-    let admin = isAdmin;
+    const [admin, setAdmin] = React.useState(isAdmin);
 
     async function signUp() {
         try {
@@ -45,7 +46,8 @@ function Register() {
 
         } catch (err) {
             console.log('post req failed: ' + err);
-            alert('Signup failed, retry!!');
+            alert('Signup failed, retry!! ' + err.message);
+            return;
         }
 
         setEmail("");
@@ -62,7 +64,7 @@ function Register() {
 
                 <form onSubmit={signUp} className="shadow-lg w-100 bg-white flex flex-col pt-10 items-center h-auto p-4 w-1/4 gap-4 border border-gray-300 rounded-lg">
                     <input
-                        type="email" required placeholder="Email" className=" border-2 bg-[#f7f7f9] p-2 rounded-sm shadow-md w-2/3 hover:bg-white focus:bg-white"
+                        type="email" required placeholder="username" className=" border-2 bg-[#f7f7f9] p-2 rounded-sm shadow-md w-2/3 hover:bg-white focus:bg-white"
                         onChange={e => setEmail(e.target.value)} value={email}
                     />
                     <input
@@ -70,7 +72,7 @@ function Register() {
                         onChange={e => setPassword(e.target.value)} value={password}
                     />
                     <FormControlLabel
-                        control={<Switch checked={admin} onChange={() => { admin = !admin }} />}
+                        control={<Switch checked={admin} onChange={() => setAdmin(!admin)} />}
                         label="Admin Role"
                     />
 

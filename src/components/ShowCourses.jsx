@@ -95,7 +95,8 @@ function CourseCard({ course }) {
     const navigate = useNavigate();
     const cardStyle = {
         display: "flex",
-        flexWrap: "wrap",
+        // flexWrap: "wrap",
+        flexDirection: "column",
         justifyContent: "center",
         alignItem: "center",
         width: "22.5rem",
@@ -104,6 +105,7 @@ function CourseCard({ course }) {
         borderRadius: "5%",
         height: "25rem",
         textAlign: "center",
+        // overflowY: "visible",
     }
 
     function editCourse() {
@@ -180,6 +182,7 @@ function CourseCard({ course }) {
         }
     }
 
+    const maxTitleLength = 40;
     return (
         <Card sx={cardStyle}>
             <CardMedia
@@ -196,7 +199,10 @@ function CourseCard({ course }) {
                 </Box>
                 <Box sx={{ mb: 1 }}>
                     <Typography variant="body2" color="textSecondary">
-                        {course.description}
+                        {/* {course.description} */}
+                        {course.description.length > maxTitleLength
+                            ? course.description.substring(0, maxTitleLength) + '...'
+                            : course.descirption}
                     </Typography>
                 </Box>
                 <Box sx={{ mb: 2 }}>
@@ -227,7 +233,7 @@ function CourseCard({ course }) {
                         )
                 }
             </CardContent>
-        </Card>
+        </Card >
     )
 }
 
