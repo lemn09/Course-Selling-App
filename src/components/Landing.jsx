@@ -13,6 +13,7 @@ function Landing() {
         navigate('/courses');
     }
 
+
     return <div
         style={{
             backgroundImage: "url(/images/bgimg.png)",

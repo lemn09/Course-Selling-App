@@ -4,6 +4,7 @@ import { adminState } from './adminAtom';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress, Typography, Card, CardContent, Box, CardMedia } from '@mui/material';
 import axios from 'axios';
+import BaseURL from './BaseURL';
 
 export default function EnrolledCourses() {
 
@@ -20,7 +21,7 @@ export default function EnrolledCourses() {
     }
 
     async function fetchEnrolledCourses() {
-      const url = 'http://localhost:3000/users/purchasedCourses';
+      const url = BaseURL + '/users/purchasedCourses';
       const headers = {
         'Content': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -93,7 +94,6 @@ function CourseCard({ course }) {
     maxWidth: "380px",
     margin: "2%",
     borderRadius: "5%",
-    height: "25rem",
     textAlign: "center",
   }
 

@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { userState } from "./userState";
 import { adminState } from "./adminAtom";
 import { FormControlLabel, Switch } from "@mui/material";
+import BaseURL from "./BaseURL";
 
 // File is incomplete. You need to add input boxes to take input for users to login.
 function Login() {
@@ -27,7 +28,7 @@ function Login() {
                 username: email,
                 password
             };
-            const url = (admin) ? 'http://localhost:3000/admin/login' : 'http://localhost:3000/users/login';
+            const url = (admin) ? `${BaseURL}/admin/login` : `${BaseURL}/users/login`;
             const res = await axios.post(url, {}, { headers });
 
             console.log('post req success');

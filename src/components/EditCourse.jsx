@@ -5,7 +5,7 @@ import { Card, CardContent, CardMedia, Typography, Box, TextField, FormControlLa
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { adminState } from "./adminAtom";
-
+import BaseURL from "./BaseURL";
 
 const courseState = atom({
   key: 'courseState',
@@ -42,7 +42,7 @@ export default function EditCourse() {
 
     async function fetchCourse() {
       try {
-        const url = "http://localhost:3000/admin/courses/" + courseId;
+        const url = BaseURL + "/admin/courses/" + courseId;
         const headers = {
           'Content': 'application/json',
           'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -96,12 +96,28 @@ export default function EditCourse() {
 function CourseForm() {
   const [course, setCourse] = useRecoilState(courseState);
 
+  const [errors, setErrors] = React.useState({
+    title: false,
+    desc: false,
+  });
+
   async function saveData(e) {
     e.preventDefault();
 
+    const wordCount = course.description.split(/\s+/).filter(Boolean).length;
+    const newErrors = {
+      title: !course.title,
+      desc: !course.description,
+    };
+
+    if (newErrors.title || newErrors.desc || wordCount > 50) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
 
-      const url = "http://localhost:3000/admin/courses/" + course._id;
+      const url = BaseURL + "/admin/courses/" + course._id;
       const headers = {
         'Content': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -128,11 +144,14 @@ function CourseForm() {
         size="small"
         value={course.title}
         onChange={(e) => setCourse({ ...course, title: e.target.value })}
+        error={errors.title}
+        helperText={errors.title && 'Title is required'}
       />
       <TextField
         id="outlined-basic" label="Description" variant="outlined" placeholder="Description" size="small"
         value={course.description}
         onChange={(e) => setCourse({ ...course, description: e.target.value })}
+        error={errors.desc} helperText={errors.desc && 'Description is required and should be less than 50 words'}
       />
       <TextField
         id="outlined-basic" label="Image" variant="outlined" placeholder="Image Link" size="small" value={course.imageLink}
@@ -175,7 +194,7 @@ function CourseCard() {
     maxWidth: "380px",
     margin: "2%",
     borderRadius: "5%",
-    height: "20rem",
+    // height: "20rem",
     textAlign: "center",
     marginTop: "5%",
     marginLeft: "20%",

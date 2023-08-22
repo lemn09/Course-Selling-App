@@ -93,7 +93,7 @@ export default function App() {
   );
 
   const imageClickHandler = () => {
-    navigate('/');
+    // navigate('/');
   }
 
   return (

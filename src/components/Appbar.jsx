@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { userState } from "./userState";
 import { useNavigate } from "react-router-dom";
 import { adminState } from "./adminAtom";
+import BaseURL from "./BaseURL";
 
 export default function App() {
 
@@ -15,7 +16,7 @@ export default function App() {
   const [isAdmin] = useRecoilState(adminState);
 
   useEffect(() => {
-
+    console.log('base url: ' + BaseURL);
     if (!localStorage.getItem("token")) {
       setUser({
         username: null,
@@ -25,7 +26,7 @@ export default function App() {
       return;
     }
     try {
-      const url = "http://localhost:3000/admin/me";
+      const url = BaseURL + "/admin/me";
 
       fetch(url, {
         method: "GET",
@@ -151,6 +152,7 @@ export default function App() {
   );
 
   const imageClickHandler = () => {
+
     navigate('/');
   }
 

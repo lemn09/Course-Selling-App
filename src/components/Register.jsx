@@ -6,6 +6,7 @@ import { userState } from "./userState";
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { adminState } from "./adminAtom";
+import BaseURL from "./BaseURL";
 
 /// File is incomplete. You need to add input boxes to take input for users to register.
 function Register() {
@@ -25,7 +26,7 @@ function Register() {
                 username: email,
                 password
             };
-            const url = (admin) ? 'http://localhost:3000/admin/signup' : 'http://localhost:3000/users/signup';
+            const url = (admin) ? `${BaseURL}/admin/signup` : `${BaseURL}/users/signup`;
             let res = null;
             if (admin) {
                 res = await axios.post(url, {}, { adminHeaders });

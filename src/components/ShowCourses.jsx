@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { atom, useRecoilState } from 'recoil';
 import { adminState } from "./adminAtom";
+import BaseURL from "./BaseURL";
 
 const coursesState = atom({
     key: "coursesState", // Unique ID (with respect to other atoms/selectors)
@@ -26,7 +27,7 @@ function ShowCourses() {
 
                 const token = localStorage.getItem('token');
                 if (token) {
-                    const url = "http://localhost:3000/admin/courses";
+                    const url = BaseURL + "/admin/courses";
                     const headers = {
                         'Content': 'application/json',
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -114,7 +115,7 @@ function CourseCard({ course }) {
 
     async function deleteCourse() {
         const id = course._id;
-        const url = `http://localhost:3000/admin/courses/${id}`;
+        const url = BaseURL + `/admin/courses/${id}`;
         const headers = {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         };
@@ -145,7 +146,7 @@ function CourseCard({ course }) {
         // logic to check if already enrolled before enrolling
         try {
 
-            const url = "http://localhost:3000/users/course/" + course._id;
+            const url = BaseURL + "/users/course/" + course._id;
             const headers = {
                 'Content': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -166,7 +167,7 @@ function CourseCard({ course }) {
 
         // logic to enroll/purchase a course
         try {
-            const url = "http://localhost:3000/users/courses/" + course._id;
+            const url = BaseURL + "/users/courses/" + course._id;
             const headers = {
                 'Content': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -202,7 +203,7 @@ function CourseCard({ course }) {
                         {/* {course.description} */}
                         {course.description.length > maxTitleLength
                             ? course.description.substring(0, maxTitleLength) + '...'
-                            : course.descirption}
+                            : course.description}
                     </Typography>
                 </Box>
                 <Box sx={{ mb: 2 }}>

@@ -3,6 +3,7 @@ import { Switch, TextField, FormControlLabel } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { adminState } from "./adminAtom";
+import BaseURL from "./BaseURL";
 
 /// You need to add input boxes to take input for users to create a course.
 /// I've added one input so you understand the api to do it.
@@ -51,12 +52,13 @@ function CourseForm() {
     async function createCourse(e) {
         e.preventDefault();
 
+        const wordCount = desc.split(/\s+/).filter(Boolean).length;
         const newErrors = {
             title: !title,
             desc: !desc,
         };
 
-        if (newErrors.title || newErrors.desc) {
+        if (newErrors.title || newErrors.desc || wordCount > 50) {
             setErrors(newErrors);
             return;
         }
@@ -65,7 +67,7 @@ function CourseForm() {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const url = "http://localhost:3000/admin/courses";
+                const url = BaseURL + "/admin/courses";
                 const headers = {
                     'Content-Type': 'application/json',
                     Authorization: "Bearer " + localStorage.getItem("token")
@@ -132,7 +134,7 @@ function CourseForm() {
                         helperText={errors.title && 'Title is required'}
                         value={title}
                     />
-                    <TextField onChange={(e) => { setDesc(e.target.value) }} id="outlined-basic" label="Description" variant="outlined" placeholder="Description" size="small" error={errors.desc} helperText={errors.desc && 'Description is required'} value={desc} />
+                    <TextField onChange={(e) => { setDesc(e.target.value) }} id="outlined-basic" label="Description" variant="outlined" placeholder="Description" size="small" error={errors.desc} helperText={errors.desc && 'Description is required and should be less than 50 words'} value={desc} />
                     <TextField onChange={(e) => { setImgLink(e.target.value) }} id="outlined-basic" label="Image" variant="outlined" placeholder="Image Link" size="small" value={imgLink} />
                     <TextField onChange={(e) => { setPrice(e.target.value) }} id="outlined-basic" label="Price" variant="outlined" placeholder="Price" size="small" value={price} />
                     <FormControlLabel
