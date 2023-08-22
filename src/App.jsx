@@ -8,6 +8,7 @@ import Appbar from './components/Appbar';
 import EditCourse from './components/EditCourse';
 import Footer from './components/Footer'
 import EnrolledCourses from './components/EnrolledCourses';
+import NotFound from './components/UrlNotFound';
 import './App.css';
 import {
     RecoilRoot,
@@ -47,6 +48,7 @@ function App() {
                             <Route path="/courses" element={<ShowCourses />} />
                             <Route path="/courses/:courseId" element={<EditCourse />} />
                             <Route path="/enrolled-courses" element={<EnrolledCourses />} />
+                            <Route path="*" element={<NotFound />} />
                         </Routes>
                     </div>
                     <Footer />
