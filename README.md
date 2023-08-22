@@ -1,18 +1,45 @@
+# Course Selling App
 
-### Create the frontend for the ADMIN DASHBOARD for a course selling app
+Welcome to the Course Selling App! This application allows users to browse and purchase courses related to web development and other topics. The app is built using modern technologies such as React, Recoil, React Router, Material-UI (MUI), and more.
 
-Please start backend from week-3/solutions/03-course-app-medium.js (add app.listen, cors if its not there already)
+## Features
 
-1. Start the backend from week-3/solutions/02-course-app-medium.js
-2. We will use authentication, which means you need to get back the jwt and store it in localStorage (read https://www.robinwieruch.de/local-storage-react/)
-3. You need to understand routing for this to work, so we've added a basic boilerplate that lets you navigate between 3 routes (check App.jsx)
-4. To test the current app, run `npm run dev` and see the output on localhost:3000
+- User Authentication: Users can register, log in, and access their profile.
+- Course Listings: Browse a variety of courses, each with a title, description, price, and image.
+- Course Details: View detailed information about a specific course.
+- Enrollment: Users can enroll in courses they're interested in.
+- Course Creation (Admin): Admin users can create new courses by providing title, description, price, and an image link.
+- Course Editing (Admin): Admin users can edit existing courses' details.
+- Responsive Design: The app is designed to be accessible and user-friendly on various devices.
 
-Things that will confuse you - 
-1. Routing. Here is a great blog post explaining it - https://hygraph.com/blog/routing-in-react . If you open App.jsx you should intuitively be able to understand whats happening
-2. Authentication (More specifically , how to store it in localstorage and how to put it in headers when sending the request)
+## Technologies Used
 
-### Hard todo - 
-Add routing to introduce a new route /courses/:id which shows you the contents of a single course
-It should also let you edit the course title, description and price
-This will be needed in the next assignment
+- React: A popular JavaScript library for building user interfaces.
+- Recoil: A state management library for managing global app state.
+- React Router: A library for handling routing and navigation in a React app.
+- Material-UI (MUI): A UI component library that provides pre-styled components.
+- Axios: A library for making HTTP requests to the backend API.
+
+## Getting Started
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/lemn09/Course-Selling-App-Frontend
+```
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+1. Run the app:
+
+```bash
+npm run dev
+```
+
+## Contributing
+
+Contributions are welcome! If you find any issues or would like to suggest enhancements, please create a pull request.
