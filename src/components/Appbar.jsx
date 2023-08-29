@@ -8,44 +8,33 @@ import { adminState } from "./adminAtom";
 import BaseURL from "./BaseURL";
 
 export default function App() {
-
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
-
 
   const [isAdmin] = useRecoilState(adminState);
 
   useEffect(() => {
-    console.log('base url: ' + BaseURL);
-    if (!localStorage.getItem("token")) {
-      setUser({
-        username: null,
-        loading: false
-      });
-      navigate('/login')
-      return;
-    }
     try {
       const url = BaseURL + "/admin/me";
 
       fetch(url, {
         method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
       })
         .then((res) => res.json())
         .then((data) => {
           if (data.username) {
             setUser({
               username: data.username,
-              loading: false
+              loading: false,
             });
           } else {
             setUser({
               username: null,
-              loading: false
+              loading: false,
             });
           }
         })
@@ -63,30 +52,28 @@ export default function App() {
         loading: false,
       });
     }
-
   }, []);
 
   const logoutHandler = () => {
-
     localStorage.setItem("token", null);
     // window.location = "/";
     setUser({
       ...user,
       username: null,
-    })
-    navigate('/');
-  }
+    });
+    navigate("/");
+  };
 
   function addCourseHandler() {
-    navigate('/add-course');
+    navigate("/add-course");
   }
 
   function exploreHandler() {
-    navigate('/courses');
+    navigate("/courses");
   }
 
   function enrolledCourse() {
-    navigate('/enrolled-courses')
+    navigate("/enrolled-courses");
   }
 
   const LogIn = () => (
@@ -101,7 +88,9 @@ export default function App() {
       <button
         className="hover:bg-white bg-[#212121] text-white hover:text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow"
         onClick={addCourseHandler}
-      >Create</button>
+      >
+        Create
+      </button>
       <button
         className="hover:bg-white bg-[#212121] text-white hover:text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow"
         onClick={logoutHandler}
@@ -123,7 +112,9 @@ export default function App() {
       <button
         className="hover:bg-white bg-[#212121] text-white hover:text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow"
         onClick={enrolledCourse}
-      >Enrolled Courses</button>
+      >
+        Enrolled Courses
+      </button>
       <button
         className="hover:bg-white bg-[#212121] text-white hover:text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow"
         onClick={logoutHandler}
@@ -132,7 +123,6 @@ export default function App() {
       </button>
     </div>
   );
-
 
   const LogOut = () => (
     <div className="flex gap-2">
@@ -152,12 +142,11 @@ export default function App() {
   );
 
   const imageClickHandler = () => {
-
-    navigate('/');
-  }
+    navigate("/");
+  };
 
   return (
-    <div >
+    <div>
       <nav className="h-auto w-full flex justify-between p-8">
         <img
           src="/images/logo.png"
@@ -166,22 +155,12 @@ export default function App() {
           onClick={imageClickHandler}
         />
 
-        {user.loading ? (
-          <CircularProgress />
-        ) : user.username ? (
-          isAdmin ?
-            (
-              <LogIn />
-            ) :
-            (
-              <UserLogIn />
-            )
-        )
-          : (
-            <LogOut />
-          )}
+        {user.loading ? <CircularProgress /> : user.username
+          ? (
+            isAdmin ? <LogIn /> : <UserLogIn />
+          )
+          : <LogOut />}
       </nav>
     </div>
   );
 }
-
